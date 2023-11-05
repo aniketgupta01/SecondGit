@@ -79,9 +79,11 @@
 
 let form = document.getElementById('addForm');
 let itemList = document.getElementById('items');
+let filter = document.getElementById('filter')
 
 form.addEventListener('submit', addItem);
 itemList.addEventListener('click', deleteItem);
+filter.addEventListener('keyup',filterItem);
 
 function addItem(e){
     e.preventDefault();
@@ -90,6 +92,7 @@ function addItem(e){
     
     //Get input value
     let newItem = document.getElementById('item').value;
+    let description = document.getElementById('description').value;
     if(newItem == ''){
         alert('Enter some value')
         
@@ -105,6 +108,7 @@ function addItem(e){
     
     // add next node with input value
     li.appendChild(document.createTextNode(newItem));
+    li.append(document.createTextNode(' '+description));
 
     //Create delete button 
     let deleteBtn = document.createElement('button');
@@ -147,4 +151,21 @@ function deleteItem(e){
         }
     }
 
+}
+
+function filterItem(e){
+    let text = e.target.value.toLowerCase();
+
+    let items = itemList.getElementsByTagName('li');
+    Array.from(items).forEach(function(item){
+        let itemName = item.firstChild.textContent;
+        console.log(itemName);
+        if(itemName.toLowerCase().indexOf(text) != -1){
+            item.style.display='block';
+        }
+        else{
+            item.style.display='none';
+        }
+
+    })
 }
